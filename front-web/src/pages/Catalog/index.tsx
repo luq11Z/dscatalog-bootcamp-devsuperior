@@ -29,26 +29,26 @@ const Catalog = () => {
 
     return (
         <div className="catalog-container">
-        <h1 className="catalog-title">
-            Catálogo de produtos
-            </h1>
-        <div className="catolog-products">
-            {isLoading ? <ProductCardLoader /> : (
-                productsResponse?.content.map(product => (
-                    <Link to={`/products/${product.id}`} key={product.id}>
-                        <ProductCard product={product}/>
-                    </Link>
-                ))
-            )}     
+            <h1 className="catalog-title">
+                Catálogo de produtos
+                </h1>
+            <div className="catolog-products">
+                {isLoading ? <ProductCardLoader /> : (
+                    productsResponse?.content.map(product => (
+                        <Link to={`/products/${product.id}`} key={product.id}>
+                            <ProductCard product={product}/>
+                        </Link>
+                    ))
+                )}     
+            </div>
+            {productsResponse && 
+                <Pagination 
+                    totalPages={productsResponse.totalPages}
+                    activePage={activePage}
+                    onChange={page => setActivePage(page)}
+                />
+            }
         </div>
-        {productsResponse && 
-            <Pagination 
-                totalPages={productsResponse.totalPages}
-                activePage={activePage}
-                onChange={page => setActivePage(page)}
-            />
-        }
-    </div>
     );
 }
 
