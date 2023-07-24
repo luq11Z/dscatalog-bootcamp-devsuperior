@@ -27,7 +27,7 @@ import com.lucaslearning.dscatalog.entities.User;
 import com.lucaslearning.dscatalog.repositories.RoleRepository;
 import com.lucaslearning.dscatalog.repositories.UserRepository;
 import com.lucaslearning.dscatalog.services.exceptions.DatabaseExcpetion;
-import com.lucaslearning.dscatalog.services.exceptions.ObjectNotFoundExcpetion;
+import com.lucaslearning.dscatalog.services.exceptions.ResourceNotFoundExcpetion;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -52,7 +52,7 @@ public class UserService implements UserDetailsService {
 	@Transactional(readOnly = true)
 	public UserDTO findById(Long id) {
 		Optional<User> obj = repository.findById(id);
-		User entity = obj.orElseThrow(() -> new ObjectNotFoundExcpetion("Object not found"));
+		User entity = obj.orElseThrow(() -> new ResourceNotFoundExcpetion("Object not found"));
 		return new UserDTO(entity);
 	}
 
@@ -73,7 +73,7 @@ public class UserService implements UserDetailsService {
 			entity = repository.save(entity);
 			return new UserDTO(entity);
 		} catch (EntityNotFoundException e) {
-			throw new ObjectNotFoundExcpetion("Id not found " + id);
+			throw new ResourceNotFoundExcpetion("Id not found " + id);
 		}
 	}
 
@@ -81,7 +81,7 @@ public class UserService implements UserDetailsService {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ObjectNotFoundExcpetion("Id not found " + id);
+			throw new ResourceNotFoundExcpetion("Id not found " + id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseExcpetion("Integrity violation");
 		}

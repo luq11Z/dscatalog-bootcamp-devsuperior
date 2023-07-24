@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.lucaslearning.dscatalog.services.exceptions.DatabaseExcpetion;
-import com.lucaslearning.dscatalog.services.exceptions.ObjectNotFoundExcpetion;
+import com.lucaslearning.dscatalog.services.exceptions.ResourceNotFoundExcpetion;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
 	
-	@ExceptionHandler(ObjectNotFoundExcpetion.class)
-	public ResponseEntity<StandardError> objectNotFoundExcpetion(ObjectNotFoundExcpetion e, HttpServletRequest request){
+	@ExceptionHandler(ResourceNotFoundExcpetion.class)
+	public ResponseEntity<StandardError> resourceNotFoundExcpetion(ResourceNotFoundExcpetion e, HttpServletRequest request){
 		StandardError err = new StandardError();
 		
 		HttpStatus status = HttpStatus.NOT_FOUND;
