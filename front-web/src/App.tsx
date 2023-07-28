@@ -1,5 +1,5 @@
 import './core/assets/styles/custom.scss'
-import './App.scss'
+import './app.scss'
 import Routes from './Routes';
 
 const App = () => {
