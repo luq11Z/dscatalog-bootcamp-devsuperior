@@ -1,18 +1,17 @@
 import { useHistory } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { makeRequest } from "core/utils/request";
+import { useEffect, useState, useCallback } from "react";
+import { makePrivateRequest, makeRequest } from "core/utils/request";
 import { ProductResponse } from "core/types/Product";
 import Card from "../Card";
 import Pagination from "core/components/Pagination";
+import { toast } from 'react-toastify';
 
 const List = () => {
     const [productsResponse, setProductsResponse] = useState<ProductResponse>();
     const [isLoading, setIsloading] = useState(false);
     const [activePage, setActivePage] = useState(0);
 
-    const history = useHistory();
-
-    useEffect(() => {
+    const getProducts = useCallback(() => {
         const params = {
             page: activePage,
             linesPerPage: 4,
@@ -28,8 +27,29 @@ const List = () => {
             })
     }, [activePage]);
 
+    const history = useHistory();
+
+    useEffect(() => {
+        getProducts();
+    }, [getProducts]);
+
     const handleCreate = () => {
         history.push('/admin/products/create')
+    }
+
+    const onRemove = (productId: number) => {
+        const confirm = window.confirm('Deseja realmente excluir esse produto?')
+
+        if (confirm) {
+            makePrivateRequest({ url: `/products/${productId}`, method: 'DELETE' })
+                .then(() => {
+                    toast.info('Produto removido com sucesso!');
+                    getProducts();
+                })
+                .catch(() => {
+                    toast.error('Erro ao remover produto!');
+                });
+        }
     }
 
     return (
@@ -40,9 +60,9 @@ const List = () => {
 
             <div className="admin-list-container">
                 {productsResponse?.content.map(product => (
-                    <Card product={product} key={product.id} />
+                    <Card product={product} key={product.id} onRemove={onRemove} />
                 ))}
-                
+
                 {productsResponse &&
                     <Pagination
                         totalPages={productsResponse.totalPages}
