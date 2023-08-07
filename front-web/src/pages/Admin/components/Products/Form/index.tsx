@@ -1,16 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import BaseForm from "../../BaseForm";
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { useHistory, useParams } from 'react-router-dom';
+import Select from 'react-select';
 import './styles.scss';
+import { Category } from 'core/types/Category';
 
 type FormState = {
     name: string;
     price: string;
     description: string;
     imgUrl: string;
+    categories: Category[]
 }
 
 type ParamsType = {
@@ -18,9 +21,11 @@ type ParamsType = {
 }
 
 const Form = () => {
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm<FormState>();
+    const { register, handleSubmit, formState: { errors }, setValue, control } = useForm<FormState>();
     const history = useHistory();
     const { productId } = useParams<ParamsType>();
+    const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+    const [categories, setCategories] = useState<Category[]>([]);
     const isEditing = productId !== 'create';
     const formTitle = isEditing ? 'Editar Produto' : 'Cadastrar um produto';
 
@@ -32,9 +37,17 @@ const Form = () => {
                     setValue('price', response.data.price);
                     setValue('description', response.data.description);
                     setValue('imgUrl', response.data.imgUrl);
+                    setValue('categories', response.data.categories);
                 })
         }
-    }, [productId, isEditing, setValue])
+    }, [productId, isEditing, setValue]);
+    
+    useEffect(() => {
+        setIsLoadingCategories(true);
+        makeRequest({ url: '/categories'})
+            .then(response => setCategories(response.data.content))
+            .finally(() => setIsLoadingCategories(false));
+    }, []);
 
     const onSubmit = (data: FormState) => {
         makePrivateRequest({
@@ -57,7 +70,7 @@ const Form = () => {
                 title={formTitle}
             >
                 <div className="row">
-                    <div className="col-6">
+                    <div className="col-6 teste">
                         <div className="margin-bottom-30">
                             <input
                                 {...register('name', {
@@ -73,6 +86,32 @@ const Form = () => {
                             {errors.name && (
                                 <div className="invalid-feedback d-block">
                                     {errors.name.message}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="margin-bottom-30">
+                            <Controller
+                                name='categories'
+                                rules={{ required: true }}
+                                control={control}
+                                render={({ field })  => (
+                                    <Select
+                                        {...field}
+                                        isLoading={isLoadingCategories} 
+                                        options={categories}
+                                        getOptionLabel={(option: Category) => option.name}
+                                        getOptionValue={(option: Category) => String(option.id)}
+                                        classNamePrefix="categories-select"
+                                        placeholder="Categorias"
+                                        isMulti
+                                    />
+                                )}
+                            />
+
+                            {errors.categories && (
+                                <div className="invalid-feedback d-block">
+                                    Campo obrigatório
                                 </div>
                             )}
                         </div>
