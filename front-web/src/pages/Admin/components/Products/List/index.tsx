@@ -2,9 +2,10 @@ import { useHistory } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
 import { makePrivateRequest, makeRequest } from "core/utils/request";
 import { ProductResponse } from "core/types/Product";
+import { toast } from 'react-toastify';
 import Card from "../Card";
 import Pagination from "core/components/Pagination";
-import { toast } from 'react-toastify';
+import CardLoader from '../Loaders/CardLoader';
 
 const List = () => {
     const [productsResponse, setProductsResponse] = useState<ProductResponse>();
@@ -59,9 +60,11 @@ const List = () => {
             </button>
 
             <div className="admin-list-container">
-                {productsResponse?.content.map(product => (
-                    <Card product={product} key={product.id} onRemove={onRemove} />
-                ))}
+                {isLoading ? <CardLoader /> : (
+                    productsResponse?.content.map(product => (
+                        <Card product={product} key={product.id} onRemove={onRemove} />
+                    ))
+                )}
 
                 {productsResponse &&
                     <Pagination
