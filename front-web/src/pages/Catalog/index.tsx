@@ -5,7 +5,8 @@ import { ProductResponse } from 'core/types/Product';
 import ProductCardLoader from './components/Loaders/ProductCardLoader';
 import ProductCard from './components/ProductCard';
 import Pagination from 'core/components/Pagination';
-import ProductFilters, { FilterForm } from 'core/components/ProductFilters';
+import ProductFilters from 'core/components/ProductFilters';
+import { Category } from 'core/types/Category';
 import './styles.scss';
 
 const Catalog = () => {
@@ -13,13 +14,15 @@ const Catalog = () => {
     const [productsResponse, setProductsResponse] = useState<ProductResponse>();
     const [isLoading, setIsloading] = useState(false);
     const [activePage, setActivePage] = useState(0);
+    const [name, setName] = useState('');
+    const [category, setCategory] = useState<Category>();
 
-    const getProducts = useCallback((filter?: FilterForm) => {
+    const getProducts = useCallback(() => {
         const params = {
             page: activePage,
             linesPerPage: 12,
-            name: filter?.name,
-            categoryId: filter?.categoryId
+            name,
+            categoryId: category?.id
         }
 
         setIsloading(true);
@@ -28,11 +31,27 @@ const Catalog = () => {
         .finally(() => {
             setIsloading(false);
         }) 
-    }, [activePage]);
+    }, [activePage, name, category]);
 
     useEffect(() => {
         getProducts();
     }, [getProducts]);
+
+    const handleChangeName = (name: string) => {
+        setActivePage(0);
+        setName(name);
+    }
+
+    const handleChangeCategory = (category: Category) => {
+        setActivePage(0);
+        setCategory(category);
+    }
+
+    const clearFilters = ()  =>  {
+        setActivePage(0);
+        setCategory(undefined);
+        setName('');
+    }
 
     return (
         <div className="catalog-container">
@@ -40,7 +59,13 @@ const Catalog = () => {
                 <h1 className="catalog-title">
                     Catálogo de produtos
                 </h1>
-                <ProductFilters onSearch={filter => getProducts(filter)}/>
+                <ProductFilters
+                    name={name}
+                    category={category}
+                    handleChangeName={handleChangeName}
+                    handleChangeCategory={handleChangeCategory}
+                    clearFilters={clearFilters}
+                />
             </div>
 
             <div className="catolog-products">
