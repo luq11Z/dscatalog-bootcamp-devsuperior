@@ -33,8 +33,8 @@ import org.springframework.util.MultiValueMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lucaslearning.dscatalog.dto.ProductDTO;
 import com.lucaslearning.dscatalog.services.ProductService;
-import com.lucaslearning.dscatalog.services.exceptions.DatabaseExcpetion;
-import com.lucaslearning.dscatalog.services.exceptions.ResourceNotFoundExcpetion;
+import com.lucaslearning.dscatalog.services.exceptions.DatabaseException;
+import com.lucaslearning.dscatalog.services.exceptions.ResourceNotFoundException;
 import com.lucaslearning.dscatalog.tests.factory.ProductFactory;
 
 @SpringBootTest
@@ -79,15 +79,15 @@ public class ProductResourceTests {
 		operatorPassword = "123456";
 		
 		when(service.findById(existingId)).thenReturn(existingProductDto);
-		when(service.findById(nonExistingId)).thenThrow(ResourceNotFoundExcpetion.class);
+		when(service.findById(nonExistingId)).thenThrow(ResourceNotFoundException.class);
 		when(service.findAllPaged(ArgumentMatchers.any(), ArgumentMatchers.anyString(), ArgumentMatchers.any())).thenReturn(page);
 		when(service.insert(ArgumentMatchers.any())).thenReturn(existingProductDto);
 		when(service.update(ArgumentMatchers.eq(existingId), ArgumentMatchers.any())).thenReturn(existingProductDto);
-		when(service.update(ArgumentMatchers.eq(nonExistingId), ArgumentMatchers.any())).thenThrow(ResourceNotFoundExcpetion.class);
+		when(service.update(ArgumentMatchers.eq(nonExistingId), ArgumentMatchers.any())).thenThrow(ResourceNotFoundException.class);
 		doNothing().when(service).delete(existingId);
-		doThrow(ResourceNotFoundExcpetion.class).when(service).delete(nonExistingId);
-		doThrow(ResourceNotFoundExcpetion.class).when(service).delete(nonExistingId);
-		doThrow(DatabaseExcpetion.class).when(service).delete(dependentId);
+		doThrow(ResourceNotFoundException.class).when(service).delete(nonExistingId);
+		doThrow(ResourceNotFoundException.class).when(service).delete(nonExistingId);
+		doThrow(DatabaseException.class).when(service).delete(dependentId);
 	}
 	
 	@Test

@@ -1,10 +1,10 @@
 package com.lucaslearning.dscatalog.services.exceptions;
 
-public class DatabaseExcpetion extends RuntimeException{
+public class ResourceNotFoundException extends RuntimeException{
 
 	private static final long serialVersionUID = 1L;
 	
-	public DatabaseExcpetion(String msg) {
+	public ResourceNotFoundException(String msg) {
 		super(msg);
 	}
 }

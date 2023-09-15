@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lucaslearning.dscatalog.dto.CategoryDTO;
 import com.lucaslearning.dscatalog.entities.Category;
 import com.lucaslearning.dscatalog.repositories.CategoryRepository;
-import com.lucaslearning.dscatalog.services.exceptions.DatabaseExcpetion;
-import com.lucaslearning.dscatalog.services.exceptions.ResourceNotFoundExcpetion;
+import com.lucaslearning.dscatalog.services.exceptions.DatabaseException;
+import com.lucaslearning.dscatalog.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class CategoryService {
@@ -33,7 +33,7 @@ public class CategoryService {
 	@Transactional(readOnly = true)
 	public CategoryDTO findById(Long id) {
 		Optional<Category> obj = repository.findById(id);
-		Category entity = obj.orElseThrow(() -> new ResourceNotFoundExcpetion("Object not found"));
+		Category entity = obj.orElseThrow(() -> new ResourceNotFoundException("Object not found"));
 		return new CategoryDTO(entity);
 	}
 
@@ -53,7 +53,7 @@ public class CategoryService {
 			entity = repository.save(entity);
 			return new CategoryDTO(entity);
 		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundExcpetion("Id not found " + id);
+			throw new ResourceNotFoundException("Id not found " + id);
 		}
 	}
 
@@ -61,9 +61,9 @@ public class CategoryService {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundExcpetion("Id not found " + id);
+			throw new ResourceNotFoundException("Id not found " + id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DatabaseExcpetion("Integrity violation");
+			throw new DatabaseException("Integrity violation");
 		}
 	}
 

@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lucaslearning.dscatalog.dto.ProductDTO;
 import com.lucaslearning.dscatalog.services.ProductService;
-import com.lucaslearning.dscatalog.services.exceptions.ResourceNotFoundExcpetion;
+import com.lucaslearning.dscatalog.services.exceptions.ResourceNotFoundException;
 
 @SpringBootTest
 @Transactional
@@ -37,7 +37,7 @@ public class ProductServiceIT {
 
 	@Test
 	public void deleteShouldThrowResourceNotFoundExcpetionWhenIdDoesNotExist() {
-		Assertions.assertThrows(ResourceNotFoundExcpetion.class, () -> {
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
 			service.delete(nonExistingId);
 		});
 	}

@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
-import com.lucaslearning.dscatalog.services.exceptions.DatabaseExcpetion;
-import com.lucaslearning.dscatalog.services.exceptions.ResourceNotFoundExcpetion;
+import com.lucaslearning.dscatalog.services.exceptions.DatabaseException;
+import com.lucaslearning.dscatalog.services.exceptions.ResourceNotFoundException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
 	
-	@ExceptionHandler(ResourceNotFoundExcpetion.class)
-	public ResponseEntity<StandardError> resourceNotFoundExcpetion(ResourceNotFoundExcpetion e, HttpServletRequest request){
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<StandardError> resourceNotFoundExcpetion(ResourceNotFoundException e, HttpServletRequest request){
 		StandardError err = new StandardError();
 		
 		HttpStatus status = HttpStatus.NOT_FOUND;
@@ -33,8 +33,8 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(status).body(err);
 	}
 	
-	@ExceptionHandler(DatabaseExcpetion.class)
-	public ResponseEntity<StandardError> databaseException(DatabaseExcpetion e, HttpServletRequest request){
+	@ExceptionHandler(DatabaseException.class)
+	public ResponseEntity<StandardError> databaseException(DatabaseException e, HttpServletRequest request){
 		StandardError err = new StandardError();
 		
 		HttpStatus status = HttpStatus.BAD_REQUEST;

@@ -24,8 +24,8 @@ import com.lucaslearning.dscatalog.entities.Product;
 import com.lucaslearning.dscatalog.repositories.CategoryRepository;
 import com.lucaslearning.dscatalog.repositories.ProductRepository;
 import com.lucaslearning.dscatalog.services.ProductService;
-import com.lucaslearning.dscatalog.services.exceptions.DatabaseExcpetion;
-import com.lucaslearning.dscatalog.services.exceptions.ResourceNotFoundExcpetion;
+import com.lucaslearning.dscatalog.services.exceptions.DatabaseException;
+import com.lucaslearning.dscatalog.services.exceptions.ResourceNotFoundException;
 import com.lucaslearning.dscatalog.tests.factory.CategoryFactory;
 import com.lucaslearning.dscatalog.tests.factory.ProductFactory;
 
@@ -72,7 +72,7 @@ public class ProductServiceTests {
 		Mockito.when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
 		
 		Mockito.when(repository.getOne(existingId)).thenReturn(product);
-		Mockito.doThrow(ResourceNotFoundExcpetion.class).when(repository).getOne(nonExistingId);
+		Mockito.doThrow(ResourceNotFoundException.class).when(repository).getOne(nonExistingId);
 		
 		Mockito.doNothing().when(repository).deleteById(existingId);
 		Mockito.doThrow(EmptyResultDataAccessException.class).when(repository).deleteById(nonExistingId);
@@ -81,7 +81,7 @@ public class ProductServiceTests {
 	
 	@Test
 	public void updateShouldThrowResourceNotFoundExcpetionWhenIdDoesNotExist() {		
-		Assertions.assertThrows(ResourceNotFoundExcpetion.class, () -> {
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
 			service.update(nonExistingId, productDTO);
 		});
 	}
@@ -95,7 +95,7 @@ public class ProductServiceTests {
 	
 	@Test
 	public void findByIdShouldThrowResourceNotFoundExcpetionWhenIdDoesNotExist() {
-		Assertions.assertThrows(ResourceNotFoundExcpetion.class, () -> {
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
 			service.findById(nonExistingId);
 		});
 	}
@@ -123,7 +123,7 @@ public class ProductServiceTests {
 	
 	@Test
 	public void deleteShouldThrowDatabaseExcpetionWhenIdIsDependent() {
-		Assertions.assertThrows(DatabaseExcpetion.class, () -> {
+		Assertions.assertThrows(DatabaseException.class, () -> {
 			service.delete(dependentId);
 		});
 		
@@ -132,7 +132,7 @@ public class ProductServiceTests {
 	
 	@Test
 	public void deleteShouldThrowResourceNotFoundExcpetionWhenIdDoesNotExist() {
-		Assertions.assertThrows(ResourceNotFoundExcpetion.class, () -> {
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
 			service.delete(nonExistingId);
 		});
 		
