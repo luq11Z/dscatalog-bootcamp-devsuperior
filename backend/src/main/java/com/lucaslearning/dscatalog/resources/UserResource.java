@@ -48,6 +48,12 @@ public class UserResource {
 		UserDTO obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
+	
+	@GetMapping(value = "/authenticated-user")
+	public ResponseEntity<UserDTO> findAuthenticatedUser() {
+		UserDTO dto = service.findAuthenticatedUser();
+		return ResponseEntity.ok().body(dto);
+	}
 
 	@PostMapping
 	public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO dto) {
