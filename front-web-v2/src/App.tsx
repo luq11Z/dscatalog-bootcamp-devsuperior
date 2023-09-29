@@ -1,12 +1,11 @@
+import Home from 'pages/Home';
 import './assets/styles/custom.scss';
-import './app.css';
-import Navbar from 'components/Navbar';
+import './app.scss';
 
 const App = () => {
   return (
     <>
-      <Navbar />
-      <h1>Hello DSCatalog</h1>
+      <Home />
     </>
   );
 };

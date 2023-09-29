@@ -1,4 +1,4 @@
-import './styles.css';
+import './styles.scss';
 import '@popperjs/core';
 import 'bootstrap/js/src/collapse';
 
