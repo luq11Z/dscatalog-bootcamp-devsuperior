@@ -1,11 +1,12 @@
-import Home from 'pages/Home';
+import AppRoutes from 'AppRoutes';
+
 import './assets/styles/custom.scss';
 import './app.scss';
 
 const App = () => {
   return (
     <>
-      <Home />
+      <AppRoutes />
     </>
   );
 };
