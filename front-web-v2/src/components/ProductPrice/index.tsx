@@ -1,4 +1,4 @@
-import { type } from 'os';
+import { formatPrice } from 'utils/formatters';
 import './styles.scss';
 
 type Props = {
@@ -9,7 +9,7 @@ const ProductPrice = ({ price }: Props) => {
     return (
         <div className="pruduct-price-container">
             <span>R$</span>
-            <h3>{price}</h3>
+            <h3>{formatPrice(price)}</h3>
         </div>
     )
 }
