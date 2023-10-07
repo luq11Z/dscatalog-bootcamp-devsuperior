@@ -1,4 +1,4 @@
-import { formatPrice } from 'utils/formatters';
+import { formatPrice } from 'util/formatters';
 import './styles.scss';
 
 type Props = {
