@@ -1,7 +1,15 @@
+import Navbar from "./Navbar";
+import './styles.scss';
+
 const Admin = () => {
     return (
-        <h1>Pagina Admin</h1>
-    )
+        <div className="admin-container">
+            <Navbar />
+            <div className="admin-content">
+                <h1>Conteudo</h1>
+            </div>
+        </div>
+    );
 } 
 
 export default Admin;
