@@ -1,4 +1,4 @@
-ul {
+.nav-items-container {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -42,7 +42,7 @@ ul {
 }
 
 @media (min-width: 1200px) {
-    ul {
+    .nav-items-container {
         justify-content: unset;
         flex-direction: column;
     }
