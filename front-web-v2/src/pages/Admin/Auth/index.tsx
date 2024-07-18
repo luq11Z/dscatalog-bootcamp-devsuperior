@@ -1,6 +1,8 @@
 import { ReactComponent as AuthImage } from 'assets/images/auth-image.svg';
 import { Outlet } from 'react-router-dom';
 
+import './styles.scss';
+
 const Auth = () => {
   return (
     <div className="auth-container">
