@@ -26,6 +26,7 @@ const Catalog = () => {
     };
 
     setIsLoading(true);
+    
     axios(params)
       .then((response) => {
         setPage(response.data);
