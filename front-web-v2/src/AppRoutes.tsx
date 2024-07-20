@@ -5,6 +5,7 @@ import Catalog from 'pages/Catalog';
 import Admin from 'pages/Admin';
 import ProductDetails from 'pages/ProductDetails';
 import Auth from 'pages/Admin/Auth';
+import Login from 'pages/Admin/Auth/Login';
 
 const AppRoutes = () => (
   <BrowserRouter>
@@ -15,7 +16,7 @@ const AppRoutes = () => (
       <Route path="/products/:productId" element={<ProductDetails />} />
       <Route path="/admin/auth" element={<Navigate to="/admin/auth/login"/> } />
       <Route path="/admin/auth" element={<Auth />}>
-        <Route path="login" element={<h1>Login card</h1> } />
+        <Route path="login" element={<Login />} />
         <Route path="signup" element={<h1>Signup card</h1>} />
         <Route path="recover" element={<h1>Recover card</h1>} />
       </Route>
