@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import ButtonIcon from 'components/ButtonIcon';
 import { useForm } from 'react-hook-form';
-import { requestBackedLogin } from 'util/requests';
+import { getAuthData, requestBackedLogin, saveAuthData } from 'util/requests';
 import { useState } from 'react';
 
 import './styles.scss';
@@ -20,7 +20,7 @@ const Login = () => {
     requestBackedLogin(formData)
       .then((response) => {
         setHasError(false);
-        console.log('SUCESSO', response);
+        saveAuthData(response.data);
       })
       .catch((error) => setHasError(true));
   };
