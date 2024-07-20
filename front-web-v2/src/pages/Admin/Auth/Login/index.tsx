@@ -4,6 +4,7 @@ import ButtonIcon from 'components/ButtonIcon';
 
 import './styles.scss';
 import { useForm } from 'react-hook-form';
+import { requestBackedLogin } from 'util/requests';
 
 type FormData = {
     username: string;
@@ -15,7 +16,11 @@ const Login = () => {
     const { register, handleSubmit } = useForm<FormData>();
 
     const onSubmit = (formData: FormData) => {
-        console.log(formData);
+        requestBackedLogin(formData)
+        .then(response => {
+            console.log('SUCESSO', response);
+        })
+        .catch(error => console.log('ERRO', error));
     };
 
   return (
