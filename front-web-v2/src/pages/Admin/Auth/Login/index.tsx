@@ -14,7 +14,7 @@ type FormData = {
 const Login = () => {
   const [hasError, setHasError] = useState(false);
 
-  const { register, handleSubmit } = useForm<FormData>();
+  const { register, handleSubmit, formState: {errors} } = useForm<FormData>();
 
   const onSubmit = (formData: FormData) => {
     requestBackedLogin(formData)
@@ -34,24 +34,36 @@ const Login = () => {
         </div>
       )}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4">
+        <div className='mb-2'>
           <input
-            {...register('username')}
+            {...register('username', {
+                required: 'Campo obrigatório',
+                pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: 'Email inválido'
+                }
+            })}
             type="text"
             className="form-control base-input"
             placeholder="Email"
             name="username"
           />
         </div>
+        <div className={hasError ? 'mb-4' : 'mb-4 invalid-feedback d-block'}>{errors.username?.message}</div>
+
         <div className="mb-2">
           <input
-            {...register('password')}
+            {...register('password', {
+                required: 'Campo obrigatório'
+            })}
             type="password"
             className="form-control base-input "
             placeholder="Password"
             name="password"
           />
         </div>
+        <div className={hasError ? 'mb-2' : 'mb-2 invalid-feedback d-block'}>{errors.password?.message}</div>
+
         <Link to="/admin/auth/recover" className="login-link-recover">
           Esqueci a senha
         </Link>
