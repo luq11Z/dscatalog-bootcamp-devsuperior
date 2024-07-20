@@ -32,3 +32,11 @@ a, a:hover {
     color: #9E9E9E;
   }
 }
+
+.form-custom-bg {
+  background-color: #FFF;
+
+  &:focus {
+    background-color: #FFF;
+  }
+}
