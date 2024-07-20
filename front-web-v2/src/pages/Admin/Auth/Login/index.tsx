@@ -1,35 +1,42 @@
 import { Link } from 'react-router-dom';
 import ButtonIcon from 'components/ButtonIcon';
-
-
-import './styles.scss';
 import { useForm } from 'react-hook-form';
 import { requestBackedLogin } from 'util/requests';
+import { useState } from 'react';
+
+import './styles.scss';
 
 type FormData = {
-    username: string;
-    password: string;
-}
+  username: string;
+  password: string;
+};
 
 const Login = () => {
+  const [hasError, setHasError] = useState(false);
 
-    const { register, handleSubmit } = useForm<FormData>();
+  const { register, handleSubmit } = useForm<FormData>();
 
-    const onSubmit = (formData: FormData) => {
-        requestBackedLogin(formData)
-        .then(response => {
-            console.log('SUCESSO', response);
-        })
-        .catch(error => console.log('ERRO', error));
-    };
+  const onSubmit = (formData: FormData) => {
+    requestBackedLogin(formData)
+      .then((response) => {
+        setHasError(false);
+        console.log('SUCESSO', response);
+      })
+      .catch((error) => setHasError(true));
+  };
 
   return (
     <div className="base-card login-card">
       <h1>LOGIN</h1>
+      {hasError && (
+        <div className="alert alert-danger">
+            Erro ao tentar efetuar o login
+        </div>
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-4">
           <input
-            {...register("username")}
+            {...register('username')}
             type="text"
             className="form-control base-input"
             placeholder="Email"
@@ -38,7 +45,7 @@ const Login = () => {
         </div>
         <div className="mb-2">
           <input
-            {...register("password")}
+            {...register('password')}
             type="password"
             className="form-control base-input "
             placeholder="Password"
@@ -61,6 +68,5 @@ const Login = () => {
     </div>
   );
 };
-
 
 export default Login;
