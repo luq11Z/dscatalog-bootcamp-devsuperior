@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ButtonIcon from 'components/ButtonIcon';
 import { useForm } from 'react-hook-form';
-import { getAuthData, requestBackedLogin, saveAuthData } from 'util/requests';
+import { requestBackedLogin, saveAuthData } from 'util/requests';
 import { useState } from 'react';
 
 import './styles.scss';
@@ -16,11 +16,14 @@ const Login = () => {
 
   const { register, handleSubmit, formState: {errors} } = useForm<FormData>();
 
+  const navigate = useNavigate();
+
   const onSubmit = (formData: FormData) => {
     requestBackedLogin(formData)
       .then((response) => {
         setHasError(false);
         saveAuthData(response.data);
+        navigate('/admin')
       })
       .catch((error) => setHasError(true));
   };
