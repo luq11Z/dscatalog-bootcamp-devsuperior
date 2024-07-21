@@ -20,7 +20,8 @@ const Users = () => {
 
     requestBackend(params).then((response) => {
       setPage(response.data);
-    });
+    })
+    .catch(error => {});
   }, []);
 
 

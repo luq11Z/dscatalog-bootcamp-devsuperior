@@ -1,21 +1,27 @@
-import { Route, Routes } from "react-router-dom";
-import Navbar from "./Navbar";
+import { Route, Switch } from 'react-router-dom';
+import Navbar from './Navbar';
 import './styles.scss';
-import Users from "./User";
+import Users from './User';
 
 const Admin = () => {
-    return (
-        <div className="admin-container">
-            <Navbar />
-            <div className="admin-content">
-                <Routes>
-                    <Route path="products" element={<h1>Product CRUD</h1>}/>
-                    <Route path="categories" element={<h1>Category CRUD</h1>}/>
-                    <Route path="users" element={<Users />}/>
-                </Routes>
-            </div>
-        </div>
-    );
-} 
+  return (
+    <div className="admin-container">
+      <Navbar />
+      <div className="admin-content">
+        <Switch>
+          <Route path="/admin/products">
+            <h1>Product CRUD</h1>
+          </Route>
+          <Route path="/admin/categories">
+            <h1>Category CRUD</h1>
+          </Route>
+          <Route path="/admin/users">
+            <Users />
+          </Route>
+        </Switch>
+      </div>
+    </div>
+  );
+};
 
 export default Admin;
