@@ -19,7 +19,7 @@ type LoginResponse = {
 
 type Role = 'ROLE_OPERATOR' | 'ROLE_ADMIN';
 
-type TokenData = {
+export type TokenData = {
     exp: number;
     user_name: string;
     authorities: Role[];
@@ -58,7 +58,6 @@ export const requestBackend = (config: AxiosRequestConfig) => {
     return axios({...config, baseURL: BASE_URL, headers});
 }
 
-
 export const saveAuthData = (obj: LoginResponse) => {
     localStorage.setItem(tokenKey, JSON.stringify(obj));
 }
@@ -67,6 +66,11 @@ export const getAuthData = () => {
     const str = localStorage.getItem(tokenKey) ?? "{}";
     return JSON.parse(str) as LoginResponse;
 }
+
+export const removeAuthData = () => {
+    localStorage.removeItem(tokenKey);
+}
+
 
 // Add a request interceptor
 axios.interceptors.request.use(function (config) {
