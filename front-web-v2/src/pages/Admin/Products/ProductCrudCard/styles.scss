@@ -1,8 +1,8 @@
-.product-card {
+.product-crud-card {
     margin-bottom: 30px;
 }
 
-.card-top-container {
+.product-crud-card-top-container {
     text-align: center;
     padding: 16px 0;
     border-bottom: 1px solid #E1E1E1;
@@ -13,11 +13,16 @@
     }
 }
 
-.card-bottom-container {
+.product-crud-card-bottom-container {
     padding: 15px 20px 30px 20px;
 
     h6 {
         font-size: 18px;
         color: #263238;;
     }
+}
+
+.product-crud-categories-container {
+    display: flex;
+    padding: 0 20px;
 }
