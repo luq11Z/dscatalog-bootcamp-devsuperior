@@ -6,6 +6,8 @@ import { requestBackend } from 'util/requests';
 import './styles.scss';
 import { useHistory } from 'react-router-dom';
 
+const path = '/admin/products';
+
 const Form = () => {
   const history = useHistory();
 
@@ -26,12 +28,12 @@ const Form = () => {
     };
 
     requestBackend(config).then((response) => {
-      console.log(response.data);
+      history.push(path);
     });
   };
 
   const handleCancel = () => {
-    history.push('/admin/products');
+    history.push(path);
   }
 
   return (
