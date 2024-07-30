@@ -121,12 +121,12 @@ const Form = () => {
           </div>
           <div className="product-crud-form-buttons-container">
             <button
-              className="btn btn-outline-danger product-crud-button"
+              className="btn btn-outline-danger product-crud-form-button"
               onClick={handleCancel}
             >
               CANCELAR
             </button>
-            <button className="btn btn-primary text-white product-crud-button">
+            <button className="btn btn-primary text-white product-crud-form-button">
               SALVAR
             </button>
           </div>

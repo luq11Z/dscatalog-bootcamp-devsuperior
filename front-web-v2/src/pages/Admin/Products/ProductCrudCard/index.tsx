@@ -1,15 +1,31 @@
 import ProductPrice from 'components/ProductPrice';
 import { Product } from 'types/product';
 import CategoryBadge from '../CategoryBadge';
+import { Link } from 'react-router-dom';
+import { AxiosRequestConfig } from 'axios';
+import { requestBackend } from 'util/requests';
+import ModalCard from 'components/ModalCard';
 
 import './styles.scss';
-import { Link } from 'react-router-dom';
 
 type Props = {
   product: Product;
+  onDelete: Function;
 };
 
-const ProductCrudCard = ({ product }: Props) => {
+const ProductCrudCard = ({ product, onDelete }: Props) => {
+  const hanldeDelete = (productId: number) => {
+    const config: AxiosRequestConfig = {
+      url: `/products/${productId}`,
+      method: 'DELETE',
+      withCredentials: true,
+    };
+
+    requestBackend(config).then(() => {
+      onDelete();
+    });
+  };
+
   return (
     <div className="base-card product-crud-card">
       <div className="product-crud-card-top-container">
@@ -27,7 +43,11 @@ const ProductCrudCard = ({ product }: Props) => {
         </div>
       </div>
       <div className="product-crud-buttons-container">
-        <button className="btn btn-outline-danger product-crud-button product-crud-button-first">
+        <button
+          data-toggle="modal"
+          data-target={`#exampleModalCenter${product.id}`}
+          className="btn btn-outline-danger product-crud-button product-crud-button-first"
+        >
           EXCLUIR
         </button>
         <Link to={`/admin/products/${product.id}`}>
@@ -36,6 +56,13 @@ const ProductCrudCard = ({ product }: Props) => {
           </button>
         </Link>
       </div>
+      <ModalCard
+        id={product.id}
+        name={product.name}
+        onConfirm={() => {
+          hanldeDelete(product.id);
+        }}
+      />
     </div>
   );
 };
