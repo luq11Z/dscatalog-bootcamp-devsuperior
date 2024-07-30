@@ -3,13 +3,13 @@ import ButtonIcon from 'components/ButtonIcon';
 import { useForm } from 'react-hook-form';
 import { useContext, useState } from 'react';
 import { AuthContext } from 'AuthContext';
-import { requestBackedLogin } from 'util/requests';
+import { requestBackendLogin } from 'util/requests';
 import { saveAuthData } from 'util/storage';
 import { getTokenData } from 'util/auth';
 
 import './styles.scss';
 
-type FormData = {
+type CredentialsDTO = {
   username: string;
   password: string;
 };
@@ -27,12 +27,12 @@ const Login = () => {
 
   const [hasError, setHasError] = useState(false);
 
-  const { register, handleSubmit, formState: {errors} } = useForm<FormData>();
+  const { register, handleSubmit, formState: {errors} } = useForm<CredentialsDTO>();
 
   const history = useHistory();
 
-  const onSubmit = (formData: FormData) => {
-    requestBackedLogin(formData)
+  const onSubmit = (formData: CredentialsDTO) => {
+    requestBackendLogin(formData)
       .then((response) => {
         setHasError(false);
         saveAuthData(response.data);
