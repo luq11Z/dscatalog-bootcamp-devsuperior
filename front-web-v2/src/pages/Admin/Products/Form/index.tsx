@@ -2,10 +2,11 @@ import { useForm } from 'react-hook-form';
 import { Product } from 'types/product';
 import { AxiosRequestConfig } from 'axios';
 import { requestBackend } from 'util/requests';
-
-import './styles.scss';
 import { useHistory, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import Select from 'react-select';
+
+import './styles.scss';
 
 type UrlParams = {
   productId: string;
@@ -18,17 +19,22 @@ const Form = () => {
   const history = useHistory();
   const isEditing = productId !== 'create';
 
+  const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
+  ];
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm<Product>();
 
   useEffect(() => {
     if (isEditing) {
-      requestBackend({url: `/products/${productId}`})
-      .then((response) => {
+      requestBackend({ url: `/products/${productId}` }).then((response) => {
         const product = response.data as Product;
 
         setValue('name', product.name);
@@ -36,14 +42,19 @@ const Form = () => {
         setValue('description', product.description);
         setValue('imgUrl', product.imgUrl);
         setValue('categories', product.categories);
-      })
+      });
     }
   }, [isEditing, productId, setValue]);
 
   const onSubmit = (formData: Product) => {
-    const data = { ...formData, categories:  isEditing ? formData.categories : [ { id: 1, name: "" }], 
-    imgUrl: isEditing ? formData.imgUrl : "https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/2-big.jpg" }
-    
+    const data = {
+      ...formData,
+      categories: isEditing ? formData.categories : [{ id: 1, name: '' }],
+      imgUrl: isEditing
+        ? formData.imgUrl
+        : 'https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/2-big.jpg',
+    };
+
     const config: AxiosRequestConfig = {
       url: isEditing ? `/products/${productId}` : '/products',
       method: isEditing ? 'PUT' : 'POST',
@@ -58,7 +69,7 @@ const Form = () => {
 
   const handleCancel = () => {
     history.push(path);
-  }
+  };
 
   return (
     <div className="product-crud-container">
@@ -83,6 +94,11 @@ const Form = () => {
                   {errors.name?.message}
                 </div>
               </div>
+
+              <div className="margin-bottom-30">
+                <Select options={options} classNamePrefix="product-crud-select" isMulti />
+              </div>
+
               <div className="margin-bottom-30">
                 <input
                   {...register('price', {

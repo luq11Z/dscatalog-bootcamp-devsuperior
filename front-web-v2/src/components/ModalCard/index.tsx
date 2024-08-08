@@ -33,7 +33,7 @@ const ModalCard = ({ id, prefix = "", name, onConfirm }: Props) => {
               </button>
             </div>
             <div className="modal-body">
-              Tem a certeza que deseja deletar {prefix} {name}?
+              Tem a certeza que deseja apagar {prefix} <b>{name}?</b>
             </div>
             <div className="modal-footer">
               <button
