@@ -1,13 +1,13 @@
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { Product } from 'types/product';
 import { AxiosRequestConfig } from 'axios';
 import { requestBackend } from 'util/requests';
 import { useHistory, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
+import { Category } from 'types/category';
 
 import './styles.scss';
-import { Category } from 'types/category';
 
 type UrlParams = {
   productId: string;
@@ -26,6 +26,7 @@ const Form = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    control,
   } = useForm<Product>();
 
   useEffect(() => {
@@ -42,12 +43,11 @@ const Form = () => {
     }
   }, [isEditing, productId, setValue]);
 
-  useEffect(() => { 
-    requestBackend({url: '/categories'})
-    .then(response => {
-      setSelectCategories(response.data.content)
-    })
-  }, []); 
+  useEffect(() => {
+    requestBackend({ url: '/categories' }).then((response) => {
+      setSelectCategories(response.data.content);
+    });
+  }, []);
 
   const onSubmit = (formData: Product) => {
     const data = {
@@ -99,13 +99,28 @@ const Form = () => {
               </div>
 
               <div className="margin-bottom-30">
-                <Select
-                  options={selectCategories}
-                  classNamePrefix="product-crud-select"
-                  isMulti
-                  getOptionLabel={(category: Category) => category.name}
-                  getOptionValue={(category: Category) => String(category.id)}
+                <Controller
+                  name="categories"
+                  rules={{ required: true }}
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={selectCategories}
+                      classNamePrefix="product-crud-select"
+                      isMulti
+                      getOptionLabel={(category: Category) => category.name}
+                      getOptionValue={(category: Category) =>
+                        String(category.id)
+                      }
+                    />
+                  )}
                 />
+                {errors.categories && (
+                  <div className="invalid-feedback d-block">
+                    Campo obrigatório
+                  </div>
+                )}
               </div>
 
               <div className="margin-bottom-30">
@@ -130,7 +145,7 @@ const Form = () => {
                 <textarea
                   rows={10}
                   className={`form-control base-input form-custom-bg ${
-                    errors.price ? 'is-invalid' : ''
+                    errors.description ? 'is-invalid' : ''
                   }`}
                   {...register('description', {
                     required: 'Campo obrigatório',
