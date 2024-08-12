@@ -51,6 +51,10 @@
     font-weight: bold !important;
 }
 
+.product-crud-form-image-container {
+    display: none;
+}
+
 @media (min-width: 576px) {
     .product-crud-form-buttons-container {
         display: flex;
@@ -60,6 +64,10 @@
     .product-crud-form-button {
         margin-left: 30px;
         width: 270px;
+    }
+
+    .product-crud-form-image-container {
+        display: block;
     }
 }
 

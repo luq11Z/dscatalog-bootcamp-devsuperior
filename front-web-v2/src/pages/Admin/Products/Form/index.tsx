@@ -6,9 +6,10 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { Category } from 'types/category';
+import CurrencyInput from 'react-currency-input-field';
+import ImageUpload from '../ImageUpload';
 
 import './styles.scss';
-import CurrencyInput from 'react-currency-input-field';
 
 type UrlParams = {
   productId: string;
@@ -21,6 +22,8 @@ const Form = () => {
   const history = useHistory();
   const isEditing = productId !== 'create';
   const [selectCategories, setSelectCategories] = useState<Category[]>([]);
+  const [uploadedImgUrl, setUploadedImgUrl] = useState('');
+  const [productImgUrl, setproductImgUrl] = useState('');
 
   const {
     register,
@@ -38,8 +41,9 @@ const Form = () => {
         setValue('name', product.name);
         setValue('price', product.price);
         setValue('description', product.description);
-        setValue('imgUrl', product.imgUrl);
         setValue('categories', product.categories);
+
+        setproductImgUrl(response.data.imgUrl);
       });
     }
   }, [isEditing, productId, setValue]);
@@ -54,6 +58,7 @@ const Form = () => {
     const data = {
       ...formData,
       price: String(formData.price).replace(',', '.'),
+      imgUrl: uploadedImgUrl || productImgUrl,
     };
 
     const config: AxiosRequestConfig = {
@@ -70,6 +75,10 @@ const Form = () => {
 
   const handleCancel = () => {
     history.push(path);
+  };
+
+  const onUploadSuccess = (imgUrl: string) => {
+    setUploadedImgUrl(imgUrl);
   };
 
   return (
@@ -143,25 +152,11 @@ const Form = () => {
                 </div>
               </div>
 
-              <div className="margin-bottom-30">
-                <input
-                  {...register('imgUrl', {
-                    required: 'Campo obrigatório',
-                    pattern: {
-                      value: /^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/gm,
-                      message: 'Deve ser uma url válida',
-                    },
-                  })}
-                  type="text"
-                  className={`form-control base-input form-custom-bg ${
-                    errors.imgUrl ? 'is-invalid' : ''
-                  }`}
-                  placeholder="URL da imagem do produto"
-                  name="imgUrl"
+              <div className="product-crud-form-image-container margin-bottom-30">
+                <ImageUpload
+                  onUploadSuccess={onUploadSuccess}
+                  productImgUrl={productImgUrl}
                 />
-                <div className="invalid-feedback d-block">
-                  {errors.imgUrl?.message}
-                </div>
               </div>
             </div>
             <div className="col-lg-6">
