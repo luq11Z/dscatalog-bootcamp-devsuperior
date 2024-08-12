@@ -7,30 +7,35 @@ import { SpringPage } from 'types/vendor/spring';
 import { AxiosRequestConfig } from 'axios';
 import { requestBackend } from 'util/requests';
 import CardLoader from './CardLoader';
+
 import './styles.scss';
 
 const Catalog = () => {
-  
   const [page, setPage] = useState<SpringPage<Product>>();
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+  const getProducts = (pageNumber: number) => {
+    setIsLoading(true);
+
     const params: AxiosRequestConfig = {
-      url: "/products",
+      url: '/products',
       method: 'GET',
       params: {
         page: 0,
         size: 12,
-      }
+      },
     };
 
-    setIsLoading(true);
-    
     requestBackend(params)
       .then((response) => {
         setPage(response.data);
+        
       })
       .finally(() => setIsLoading(false));
+  };
+
+  useEffect(() => {
+    getProducts(0);
   }, []);
 
   return (
@@ -39,18 +44,25 @@ const Catalog = () => {
         <h1>Cátalogo de Produtos</h1>
       </div>
       <div className="row">
-        {isLoading ? <CardLoader /> : (
+        {isLoading ? (
+          <CardLoader />
+        ) : (
           page?.content.map((product) => (
-          <div className="col-sm-6 col-lg-4 col-xl-3" key={product.id}>
-            <Link to={`/products/${product.id}`}>
-              <ProductCard product={product} />
-            </Link>
-          </div>
-        )))}
+            <div className="col-sm-6 col-lg-4 col-xl-3" key={product.id}>
+              <Link to={`/products/${product.id}`}>
+                <ProductCard product={product} />
+              </Link>
+            </div>
+          ))
+        )}
       </div>
 
-      <div className="row">
-        <Pagination />
+      <div className="row justify-content-center">
+        <Pagination
+          pageCount={page ? page.totalPages : 0}
+          range={3}
+          onChange={getProducts}
+        />
       </div>
     </div>
   );
