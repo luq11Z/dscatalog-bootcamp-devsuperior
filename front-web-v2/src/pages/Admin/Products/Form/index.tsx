@@ -115,6 +115,7 @@ const Form = () => {
                       {...field}
                       options={selectCategories}
                       classNamePrefix="product-crud-select"
+                      placeholder="Cateogoria"
                       isMulti
                       getOptionLabel={(category: Category) => category.name}
                       getOptionValue={(category: Category) =>

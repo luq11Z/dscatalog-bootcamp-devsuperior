@@ -1,0 +1,102 @@
+.product-filter-container {
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+.product-filter-name-container {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e1e1e1;
+    margin-bottom: 20px;
+
+    input {
+        border: none;
+
+        &:focus {
+            box-shadow: none;
+        }
+
+        &:placeholder {
+            color: #9E9E9E;
+        }
+    }
+}
+
+.product-filter-button-search-icon {
+    border: none;
+    background-color: unset;
+}
+
+.product-filter-bottom-container {
+    display: flex;
+}
+
+.product-filter-category-container {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.btn-product-filter-clear {
+    font-weight: bold !important;
+    border-radius: 10px !important;
+}
+
+.btn-prodcut-filter-word {
+    display: none;
+}
+
+.product-filter-select__control {
+    font-size: 1em;
+    letter-spacing: -0.015em;
+    color: #263238;
+    border: none !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid #E1E1E1 !important;
+}
+
+.product-filter-select__placeholder {
+    color: #9E9E9E !important;
+}
+
+.product-filter-select__indicator-separator {
+    display: none;
+}
+
+@media (min-width: 576px) {
+    .btn-prodcut-filter-word {
+        display: unset;
+    }
+}
+
+@media (min-width: 768px) {
+    .product-filter-form {
+        display: flex;
+    }
+
+    .btn-prodcut-filter-word {
+        display: none;
+    }
+
+    .product-filter-container {
+        flex: 1;
+        margin-left: 20px;
+        margin-bottom: 0;
+        padding: 10px 15px;
+    }
+
+    .product-filter-name-container {
+        flex: 1;
+        margin-right: 20px;
+        margin-bottom: 0;
+    }
+
+    .product-filter-bottom-container {
+        flex: 1;
+    }
+}
+
+@media (min-width: 992px) {
+    .btn-prodcut-filter-word {
+        display: unset;
+    }
+}
