@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { AxiosRequestConfig } from 'axios';
 import { requestBackend } from 'util/requests';
 import ModalCard from 'components/ModalCard';
+import { toast } from 'react-toastify';
 
 import './styles.scss';
 
@@ -21,9 +22,14 @@ const ProductCrudCard = ({ product, onDelete }: Props) => {
       withCredentials: true,
     };
 
-    requestBackend(config).then(() => {
-      onDelete();
-    });
+    requestBackend(config)
+      .then(() => {
+        toast.info('Produto apagado com sucesso');
+        onDelete();
+      })
+      .catch(() => {
+        toast.error('Erro ao apagar produto');
+      });
   };
 
   return (

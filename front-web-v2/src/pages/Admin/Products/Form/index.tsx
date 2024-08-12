@@ -8,6 +8,7 @@ import Select from 'react-select';
 import { Category } from 'types/category';
 import CurrencyInput from 'react-currency-input-field';
 import ImageUpload from '../ImageUpload';
+import { toast } from 'react-toastify';
 
 import './styles.scss';
 
@@ -68,9 +69,14 @@ const Form = () => {
       withCredentials: true,
     };
 
-    requestBackend(config).then((response) => {
-      history.push(path);
-    });
+    requestBackend(config)
+      .then((response) => {
+        toast.info('Producto adicionado com sucesso');
+        history.push(path);
+      })
+      .catch(() => {
+        toast.error('Erro ao criar produto');
+      });
   };
 
   const handleCancel = () => {
