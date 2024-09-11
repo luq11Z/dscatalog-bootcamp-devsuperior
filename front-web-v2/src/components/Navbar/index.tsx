@@ -8,7 +8,7 @@ import history from 'util/history';
 
 import './styles.scss';
 import '@popperjs/core';
-import 'bootstrap/js/src/collapse';
+//import 'bootstrap/js/src/collapse';
 
 const Navbar = () => {
   const { authContextData, setAuthContextData } = useContext(AuthContext);

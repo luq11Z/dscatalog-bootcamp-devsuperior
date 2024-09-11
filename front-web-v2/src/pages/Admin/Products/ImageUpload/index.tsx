@@ -1,6 +1,6 @@
 import { ReactComponent as UploadPlaceholder } from 'assets/images/upload-placeholder.svg';
 import { useState } from 'react';
-import { AxiosProgressEvent, AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 import { toast } from 'react-toastify';
 import { requestBackend } from 'util/requests';
 import { useParams } from 'react-router-dom';
@@ -23,7 +23,7 @@ const ImageUpload = ({ onUploadSuccess, productImgUrl }: Props) => {
   const { productId } = useParams<UrlParams>();
   const isEditing = productId !== 'create';
 
-  const onUploadProgress = (progressEvent: AxiosProgressEvent) => {
+  const onUploadProgress = (progressEvent: ProgressEvent) => {
     const progress = Math.round(
       (progressEvent.loaded * 100) / progressEvent.total!
     );
