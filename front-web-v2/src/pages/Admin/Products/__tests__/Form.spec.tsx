@@ -25,7 +25,7 @@ describe('Product form Create tests', () => {
         })
     });
 
-    it('should render Form', async () => {
+    it('Should show toast and redirect when submit form correctly', async () => {
         render(
             <Router history={history}>
                 <ToastContainer />
