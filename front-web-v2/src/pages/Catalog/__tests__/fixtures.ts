@@ -1,9 +1,3 @@
-
-import { TextEncoder, TextDecoder } from 'util';
-
-(global as any).TextEncoder = global.TextEncoder || TextEncoder;
-(global as any).TextDecoder = global.TextDecoder || TextDecoder;
-
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import { BASE_URL } from 'util/requests';

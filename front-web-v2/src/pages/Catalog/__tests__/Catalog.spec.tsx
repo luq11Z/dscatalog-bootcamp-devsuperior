@@ -16,7 +16,9 @@ it('should render catalog with products', async () => {
         </Router>
     );
 
+    expect(screen.getByText("Catálogo de Produtos")).toBeInTheDocument();
+
     await waitFor(() => {
-        expect(screen.getByText("Cátalogo de Produtos")).toBeInTheDocument();
+        expect(screen.getByText("PC Gamer Alfa")).toBeInTheDocument();
     });
 });

@@ -41,7 +41,7 @@ const Catalog = () => {
   return (
     <div className="container my-4 catalog-container">
       <div className="row catalog-title-container">
-        <h1>Cátalogo de Produtos</h1>
+        <h1>Catálogo de Produtos</h1>
       </div>
       <div className="row">
         {isLoading ? (
